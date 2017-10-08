@@ -263,7 +263,6 @@ def check_apikey(kwargs, nokey=False):
     output = kwargs.get('output')
     mode = kwargs.get('mode', '')
     name = kwargs.get('name', '')
-    callback = kwargs.get('callback')
 
     # Lookup required access level
     req_access = sabnzbd.api.api_level(mode, name)
@@ -282,14 +281,14 @@ def check_apikey(kwargs, nokey=False):
         if not key:
             if cfg.api_warnings():
                 log_warning(T('API Key missing, please enter the api key from Config->General into your 3rd party program:'))
-            return report(output, 'API Key Required', callback=callback)
+            return report(output, 'API Key Required')
         elif req_access == 1 and key == cfg.nzb_key():
             return None
         elif key == cfg.api_key():
             return None
         else:
             log_warning(T('API Key incorrect, Use the api key from Config->General in your 3rd party program:'))
-            return report(output, 'API Key Incorrect', callback=callback)
+            return report(output, 'API Key Incorrect')
 
     # No active APIKEY, check web credentials instead
     if cfg.username() and cfg.password():
@@ -298,7 +297,7 @@ def check_apikey(kwargs, nokey=False):
         else:
             if cfg.api_warnings():
                 log_warning(T('Authentication missing, please enter username/password from Config->General into your 3rd party program:'))
-            return report(output, 'Missing authentication', callback=callback)
+            return report(output, 'Missing authentication')
     return None
 
 
@@ -1374,13 +1373,16 @@ SPECIAL_BOOL_LIST = \
     ('start_paused', 'no_penalties', 'ignore_wrong_unrar', 'overwrite_files', 'enable_par_cleanup',
               'queue_complete_pers', 'api_warnings', 'ampm', 'enable_unrar', 'enable_unzip', 'enable_7zip',
               'enable_filejoin', 'enable_tsjoin', 'ignore_unrar_dates',
-              'multipar', 'osx_menu', 'osx_speed', 'win_menu', 'use_pickle', 'allow_incomplete_nzb',
+              'multipar', 'osx_menu', 'osx_speed', 'win_menu', 'allow_incomplete_nzb',
               'rss_filenames', 'ipv6_hosting', 'keep_awake', 'empty_postproc', 'html_login', 'wait_for_dfolder',
               'max_art_opt', 'warn_empty_nzb', 'enable_bonjour', 'reject_duplicate_files', 'warn_dupl_jobs',
               'replace_illegal', 'backup_for_duplicates', 'disable_api_key', 'api_logging',
      )
+
+    #### 'fsys_type',
+
 SPECIAL_VALUE_LIST = \
-    ('size_limit', 'folder_max_length', 'fsys_type', 'movie_rename_limit', 'nomedia_marker',
+    ('size_limit', 'folder_max_length',  'movie_rename_limit', 'nomedia_marker',
               'req_completion_rate', 'wait_ext_drive', 'show_sysload', 'url_base',
               'direct_unpack_threads', 'ipv6_servers', 'selftest_host', 'rating_host'
      )
