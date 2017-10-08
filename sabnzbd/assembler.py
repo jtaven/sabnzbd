@@ -20,7 +20,7 @@ sabnzbd.assembler - threaded assembly/decoding of files
 """
 
 import os
-import Queue
+import queue
 import logging
 import re
 from threading import Thread
@@ -51,7 +51,7 @@ class Assembler(Thread):
         if queue:
             self.queue = queue
         else:
-            self.queue = Queue.Queue()
+            self.queue = queue.Queue()
         Assembler.do = self
 
     def stop(self):
@@ -96,7 +96,9 @@ class Assembler(Thread):
                     logging.info('Decoding %s %s', filepath, nzf.type)
                     try:
                         filepath = self.assemble(nzf, filepath)
-                    except IOError, (errno, strerror):
+                    except IOError as xxx_todo_changeme:
+                        # If job was deleted, ignore error
+                        (errno, strerror) = xxx_todo_changeme.args
                         # If job was deleted, ignore error
                         if not nzo.is_gone():
                             # 28 == disk full => pause downloader
@@ -215,7 +217,7 @@ def is_cloaked(nzo, path, names):
     for name in names:
         name = get_filename(name.lower())
         name, ext = os.path.splitext(unicoder(name))
-        if ext == u'.rar' and fname.startswith(name) and (len(fname) - len(name)) < 8 and len(names) < 3 and not RE_SUBS.search(fname):
+        if ext == '.rar' and fname.startswith(name) and (len(fname) - len(name)) < 8 and len(names) < 3 and not RE_SUBS.search(fname):
             # Only warn once
             if nzo.encrypted == 0:
                 logging.warning(T('Job "%s" is probably encrypted due to RAR with same name inside this RAR'), nzo.final_name)

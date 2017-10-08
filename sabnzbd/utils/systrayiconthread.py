@@ -121,7 +121,7 @@ class SysTrayIconThread(Thread):
                                self._add_ids_to_menu_options(option_action),
                                self._next_action_id))
             else:
-                print 'Unknown item', option_text, option_icon, option_action
+                print(('Unknown item', option_text, option_icon, option_action))
             self._next_action_id += 1
         return result
 
@@ -141,7 +141,7 @@ class SysTrayIconThread(Thread):
                                        0,
                                        icon_flags)
         else:
-            print "Can't find icon file - using default."
+            print("Can't find icon file - using default.")
             hicon = win32gui.LoadIcon(0, win32con.IDI_APPLICATION)
 
         self.icons[path] = hicon
@@ -269,4 +269,4 @@ def non_string_iterable(obj):
     except TypeError:
         return False
     else:
-        return not isinstance(obj, basestring)
+        return not isinstance(obj, str)
